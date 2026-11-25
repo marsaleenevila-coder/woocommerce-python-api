@@ -1,8 +1,22 @@
+# Environment variables
 .env
+
+# Python virtual environments
 .venv/
 venv/
+
+# Python cache
 __pycache__/
 *.py[cod]
+
+# Testing
 .pytest_cache/
 .coverage
 htmlcov/
+
+# Local Postman workspace metadata
+.postman/
+# Postman local workspace metadata
+postman/collections/
+postman/environments/
+postman/globals/
