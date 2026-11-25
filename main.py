@@ -1,4 +1,3 @@
-
 from api_client import WooCommerceClient, WooCommerceAPIError
 
 from products import get_products, display_products
@@ -11,6 +10,18 @@ from orders import (
     display_order_details,
 )
 
+from customers import (
+    get_customers,
+    get_customer_by_id,
+    search_customers_by_email,
+    display_customers,
+    display_customer_details,
+)
+
+from store_config import (
+    get_store_configuration,
+    display_store_configuration,
+)
 
 def main():
     try:
@@ -20,14 +31,24 @@ def main():
         print("Connection initialized successfully!")
 
         while True:
-            print("\n" + "=" * 50)
-            print("       NOREVIA WOOCOMMERCE API")
-            print("=" * 50)
+            print("\n" + "=" * 55)
+            print("          NOREVIA WOOCOMMERCE API")
+            print("=" * 55)
+
+            print("\nPRODUCT MANAGEMENT")
             print("1. Retrieve Products")
+
+            print("\nORDER MANAGEMENT")
             print("2. Retrieve All Orders")
             print("3. Retrieve Order by ID")
             print("4. Search Orders by Status")
-            print("5. Exit")
+
+            print("\nCUSTOMER MANAGEMENT")
+            print("5. Retrieve All Customers")
+            print("6. Retrieve Customer by ID")
+            print("7. Search Customers by Email")
+            print("8. Retrieve Store Configuration")
+            print("\n9. Exit")
 
             choice = input("\nEnter your choice: ").strip()
 
@@ -53,6 +74,27 @@ def main():
                 display_orders(orders)
 
             elif choice == "5":
+                customers = get_customers(client)
+                print(f"\nTotal customers retrieved: {len(customers)}")
+                display_customers(customers)
+
+            elif choice == "6":
+                customer_id = int(input("Enter Customer ID: "))
+                customer = get_customer_by_id(client, customer_id)
+                display_customer_details(customer)
+
+            elif choice == "7":
+                email = input("Enter customer email: ").strip()
+                customers = search_customers_by_email(client, email)
+
+                print(f"\nCustomers found: {len(customers)}")
+                display_customers(customers)
+
+            elif choice == "8":
+                configuration = get_store_configuration(client)
+                display_store_configuration(configuration)
+
+            elif choice == "9":
                 print("\nThank you for using Norevia WooCommerce API!")
                 break
 

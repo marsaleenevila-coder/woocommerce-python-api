@@ -33,7 +33,7 @@ class WooCommerceClient:
 
         self.timeout = WC_TIMEOUT
 
-    def request(self, method: str, endpoint: str, params=None):
+    def request(self, method: str, endpoint: str, params=None, data=None):
         """Send an authenticated request to WooCommerce."""
 
         url = get_api_url(endpoint)
@@ -57,6 +57,7 @@ class WooCommerceClient:
                     method=method.upper(),
                     url=signed_url,
                     headers=headers,
+                    json=data,
                 )
 
             response.raise_for_status()
