@@ -1,4 +1,3 @@
-
 import httpx
 
 from oauthlib.oauth1 import (
@@ -41,6 +40,7 @@ class WooCommerceClient:
         endpoint: str,
         params=None,
         data=None,
+        return_metadata=False
     ):
         """Send an authenticated request and handle API errors."""
 
@@ -91,6 +91,25 @@ class WooCommerceClient:
                     "Expected a JSON list or dictionary."
                 )
 
+            # Return pagination metadata when requested
+            if return_metadata:
+                try:
+                    total = int(response.headers.get("X-WP-Total", 0))
+                    total_pages = int(
+                        response.headers.get("X-WP-TotalPages", 0)
+                    )
+                except (TypeError, ValueError) as exc:
+                    raise WooCommerceAPIError(
+                        "Invalid pagination metadata received from WooCommerce."
+                    ) from exc
+
+                return {
+                    "data": result,
+                    "total": total,
+                    "total_pages": total_pages
+                }
+
+            # Return normal response for existing CLI functions
             return result
 
         except httpx.TimeoutException as exc:
