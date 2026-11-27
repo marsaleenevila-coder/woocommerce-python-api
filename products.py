@@ -160,6 +160,7 @@ def search_products_by_sku(
     return exact_matches
 
 
+
 def search_products_by_keyword(
     client: WooCommerceClient,
     keyword: str
