@@ -99,11 +99,15 @@ def display_product_details(product: dict) -> None:
     print("-" * 90)
 
 
+
 def search_products_by_name(
     client: WooCommerceClient,
     name: str
 ) -> list:
-    """Search published products using their product name."""
+    """
+    Search published products using product name only.
+    Tags, categories and descriptions are ignored.
+    """
 
     if not name or not name.strip():
         raise ValueError("Product name cannot be empty.")
@@ -123,7 +127,15 @@ def search_products_by_name(
             "Invalid API response: expected a list of products."
         )
 
-    return response
+    search_term = name.strip().casefold()
+
+    # Verify that the keyword exists in the product name only.
+    matching_products = [
+        product for product in response
+        if search_term in (product.get("name") or "").casefold()
+    ]
+
+    return matching_products
 
 
 def search_products_by_sku(

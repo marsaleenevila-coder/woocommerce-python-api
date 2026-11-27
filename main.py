@@ -210,7 +210,6 @@ def main():
         print("\n\nApplication stopped by user.")
 
     except Exception as error:
-
         print(f"\nUnexpected Error: {error}")
 
 
